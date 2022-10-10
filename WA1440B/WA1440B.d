@@ -636,32 +636,41 @@ char[3] addrchar3(int addr)
 
 void IOp()
 {
-	Breg = memory[Ireg];
+	if (isNSI) {
+		Breg = memory[Ireg];
+	} else {
+		Breg = memory[AAR];
+	}
 	unsetwm(Breg);
 	Breg = bcd2char[Breg];
 	Oreg = Breg;
 	if (Oreg == '.') { 
 		state=micstate._h;
-	} else if ((Oreg == '1') || (Oreg == '4')) {
-		state=micstate._i7;
 	} else {
 		state=micstate._i1;
 	}
 	Ireg++;
+	isNSI=true;
 }
 
 void I1()
 {
+	Breg = memory[Ireg];
+	if (wm(Breg)) {
+		state=micstate._i7;
+		return 1;
+	} else {
+		state=micstate._i2;
+	}
+	unsetwm(Breg);
+	Breg = bcd2char[Breg];
+	Areg = Breg;
 	AAR = 0; 
 	if ((Oreg != 'D') && (Oreg != 'L') && (Oreg != 'M') &&
 		(Oreg != 'Y') && (Oreg != 'Z') && (Oreg != 'H') &&
 		(Oreg != 'Q')) {
 			BAR = 0;
-	}
-	Breg = memory[Ireg];
-	unsetwm(Breg);
-	Breg = bcd2char[Breg];
-	Areg = Breg;
+		}
 	if ((Oreg != 'D') && (Oreg != 'L') && (Oreg != 'M') &&
 		(Oreg != 'Y') && (Oreg != 'Z') && (Oreg != 'H') &&
 		(Oreg != 'Q')) {
@@ -671,16 +680,17 @@ void I1()
 			AAR = addrmap[Breg]*100;
 		}
 	Ireg++;
-	if (wm(memory[Ireg])) {
-		state=micstate._i7;
-	} else {
-		state=micstate._i2;
-	}
 }
 
 void I2()
 {
 	Breg = memory[Ireg];
+	if (wm(Breg)) {
+		state=micstate._i7;
+		return 2;
+	} else {
+		state=micstate._i3;
+	}
 	unsetwm(Breg);
 	Breg = bcd2char[Breg];
 	Areg = Breg;
@@ -693,11 +703,6 @@ void I2()
 			AAR += (Breg-48)*10;
 		}
 	Ireg++;
-	if (wm(memory[Ireg])) {
-		state=micstate._i7;
-	} else {
-		state=micstate._i3;
-	}
 }
 
 void I3()
@@ -721,10 +726,11 @@ void I3()
 int I4()
 {
 	Breg = memory[Ireg];
-	if (Oreg == 'B') {
-		if (wm(Breg) || (Breg == 124)) {
-			// Branch instruction
-		}
+	if ((Oreg == 'B') && (wm(Breg) || (Breg == 124))) {
+		// Branch instruction
+		isNSI=false;
+		state=micstate._iop;
+		return 4;
 	} else {
 		if (wm(Breg)) {
 			state=micstate._i7;
@@ -747,6 +753,9 @@ int I5()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
+		if (Oreg == 'B') {
+
+		}
 		state=micstate._i7;
 		return 5;
 	} else {
@@ -810,6 +819,8 @@ int I8()
 
 void microcode()
 {
+	bool isNSI = true;
+
 	switch(state) {
 		case micstate._iop:
 			IOp();
