@@ -45,6 +45,6 @@
   <exefile>$(OutDir)\$(ProjectName).exe</exefile>
  </Config>
  <Folder name="WA1440B">
-  <File path="WA1440B.d" />
+  <File path="source/WA1440B.d" />
  </Folder>
 </DProject>

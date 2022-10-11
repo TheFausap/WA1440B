@@ -1,0 +1,10 @@
+{
+	"authors": [
+		"Fausto Saporito"
+	],
+	"copyright": "Copyright © 2022, Fausto Saporito",
+	"description": "IBM1401B",
+	"license": "proprietary",
+	"name": "wa1440b",
+	"targetType": "executable"
+}

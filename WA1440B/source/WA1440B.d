@@ -22,6 +22,7 @@ int AAR;
 int BAR;
 
 bool sysHalt = false;
+bool isNSI = true;
 
 enum micstate {_iop, _i1, _i2, _i3, _i4, _i5, _i6, _i6d, _i7, _i8, _h, _e};
 
@@ -653,7 +654,7 @@ void IOp()
 	isNSI=true;
 }
 
-void I1()
+int I1()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
@@ -680,9 +681,10 @@ void I1()
 			AAR = addrmap[Breg]*100;
 		}
 	Ireg++;
+	return 0;
 }
 
-void I2()
+int I2()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
@@ -703,6 +705,7 @@ void I2()
 			AAR += (Breg-48)*10;
 		}
 	Ireg++;
+	return 0;
 }
 
 void I3()
@@ -819,8 +822,6 @@ int I8()
 
 void microcode()
 {
-	bool isNSI = true;
-
 	switch(state) {
 		case micstate._iop:
 			IOp();

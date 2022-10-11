@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/wa1440b
+wa1440b.so
+wa1440b.dylib
+wa1440b.dll
+wa1440b.a
+wa1440b.lib
+wa1440b-test-*
+*.exe
+*.o
+*.obj
+*.lst
