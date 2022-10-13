@@ -33,6 +33,21 @@ char wm(char c)
 	return (c & 0x80)>>7;
 }
 
+char extB(char c)
+{
+	return (c & 0x20);
+}
+
+char extA(char c)
+{
+	return (c & 0x10);
+}
+
+char extD(char c)
+{
+	return (c & 0x0f);
+}
+
 char cwm(char c)
 {
 	if (wm(c) == 1) {
@@ -658,6 +673,36 @@ int I1()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
+		switch(Oreg) {
+			case 'B':
+				break;
+			case '/':
+				break;
+			case 'C':
+				break;
+			case 'N':
+				break;
+			case '.':
+				break;
+			case '1':
+				break;
+			case '2':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			case '6':
+				break;
+			case '7':
+				break;
+			case '8':
+				break;
+			case '9':
+				break;
+			default:
+				break;
+		}
 		state=micstate._i7;
 		return 1;
 	} else {
@@ -688,6 +733,36 @@ int I2()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
+		switch(Oreg) {
+			case 'B':
+				break;
+			case '/':
+				break;
+			case 'C':
+				break;
+			case 'N':
+				break;
+			case '.':
+				break;
+			case '1':
+				break;
+			case '2':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			case '6':
+				break;
+			case '7':
+				break;
+			case '8':
+				break;
+			case '9':
+				break;
+			default:
+				break;
+		}
 		state=micstate._i7;
 		return 2;
 	} else {
@@ -730,12 +805,42 @@ int I4()
 {
 	Breg = memory[Ireg];
 	if ((Oreg == 'B') && (wm(Breg) || (Breg == 124))) {
-		// Branch instruction
+		// Branch instruction - Unconditional
 		isNSI=false;
 		state=micstate._iop;
 		return 4;
 	} else {
 		if (wm(Breg)) {
+			switch(Oreg) {
+				case 'B':
+					break;
+				case '/':
+					break;
+				case 'C':
+					break;
+				case 'N':
+					break;
+				case '.':
+					break;
+				case '1':
+					break;
+				case '2':
+					break;
+				case '4':
+					break;
+				case '5':
+					break;
+				case '6':
+					break;
+				case '7':
+					break;
+				case '8':
+					break;
+				case '9':
+					break;
+				default:
+					break;
+			}
 			state=micstate._i7;
 			return 4;
 		} else {
@@ -756,8 +861,35 @@ int I5()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
-		if (Oreg == 'B') {
-
+		switch(Oreg) {
+			case 'B':
+				break;
+			case '/':
+				break;
+			case 'C':
+				break;
+			case 'N':
+				break;
+			case '.':
+				break;
+			case '1':
+				break;
+			case '2':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			case '6':
+				break;
+			case '7':
+				break;
+			case '8':
+				break;
+			case '9':
+				break;
+			default:
+				break;
 		}
 		state=micstate._i7;
 		return 5;
@@ -793,6 +925,36 @@ int I7()
 		return 7;
 	}
 	if (wm(Breg)) {
+		switch(Oreg) {
+			case 'B':
+				break;
+			case '/':
+				break;
+			case 'C':
+				break;
+			case 'N':
+				break;
+			case '.':
+				break;
+			case '1':
+				break;
+			case '2':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			case '6':
+				break;
+			case '7':
+				break;
+			case '8':
+				break;
+			case '9':
+				break;
+			default:
+				break;
+		}
 		state = micstate._e;
 		return 7;
 	} else {
@@ -809,6 +971,36 @@ int I8()
 {
 	Breg = memory[Ireg];
 	if (wm(Breg)) {
+		switch(Oreg) {
+			case 'B':
+				break;
+			case '/':
+				break;
+			case 'C':
+				break;
+			case 'N':
+				break;
+			case '.':
+				break;
+			case '1':
+				break;
+			case '2':
+				break;
+			case '4':
+				break;
+			case '5':
+				break;
+			case '6':
+				break;
+			case '7':
+				break;
+			case '8':
+				break;
+			case '9':
+				break;
+			default:
+				break;
+		}
 		state = micstate._e;
 		return 7;
 	} else {
@@ -861,8 +1053,6 @@ void microcode()
 	}
 }
 
-
-
 void exec()
 {
 	char[] s;
@@ -871,6 +1061,29 @@ void exec()
 	switch(Oreg){
 		case 'A':
 			addOrig();
+			break;
+		case ',':
+			Breg = memory[AAR];
+			setwm(Breg);
+			memory[AAR] = Breg;
+			Breg = memory[BAR];
+			setwm(Breg);
+			memory[BAR] = Breg;
+			break;
+		case ' ':
+			Breg = memory[AAR];
+			unsetwm(Breg);
+			memory[AAR] = Breg;
+			Breg = memory[BAR];
+			unsetwm(Breg);
+			memory[BAR] = Breg;
+			break;
+		case 'D':
+			Breg = memory[AAR];
+			Areg = memory[AAR];
+			Breg = memory[BAR];
+			c = extB(Breg) | extA(Breg);
+			memory[BAR] = cast(char)(c | extD(Areg));
 			break;
 		default:
 			break;
